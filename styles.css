@@ -135,10 +135,6 @@ header, footer {
   background-color: #e64a19;
 }
 
-.hero-links {
-  margin-top: 20px;
-}
-
 .cta-link {
   margin: 0 10px;
   color: #ff9800;
@@ -151,83 +147,6 @@ header, footer {
   color: #ff5722;
 }
 
-/* Form Section Styles */
-form {
-  background: rgba(97, 95, 95, 0.8);
-  width : 100%;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin: 20px 0;
-}
-
-form label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #222;
-}
-
-form input,
-form textarea,
-form button {
-  width: 100%;
-  margin-bottom: 15px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-form input:focus,
-form textarea:focus {
-  outline: none;
-  border-color: #ff5733;
-  box-shadow: 0 0 5px rgba(255, 87, 51, 0.5);
-}
-
-form button {
-  background-color: #561406;
-  color: #fff;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-form button:hover {
-  background-color: #5e0606;
-}
-
-/* Specific Section Styles */
-.contact-section,
-.submit-story-section {
-  display : flex;
-  justify-content: center;
-  padding: 50px 0;
-  background: url('images/1.webp') no-repeat center center/cover;
-  color: #fff;
-}
-
-.contact-section .container,
-.submit-story-section .container {
-  background: rgba(0, 0, 0, 0.7);
-  padding: 30px;
-  border-radius: 10px;
-}
-
-.contact-section h1,
-.submit-story-section h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 36px;
-}
-
-.contact-section p,
-.submit-story-section p {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 18px;
-  line-height: 1.8;
-}
 
 /* Footer */
 .main-footer {
@@ -245,12 +164,12 @@ form button:hover {
   font-style: italic;
 }
 
-.stories-section,
-.about-section{
+.stories-section{
   height : 100vh;
   display: flex;
   justify-content: center;
 }
+
 
 /* Flickering Light Effect */
 @keyframes flicker {
@@ -289,3 +208,5 @@ form button:hover {
     width: 80%;
   }
 }
+
+

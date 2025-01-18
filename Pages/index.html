@@ -28,33 +28,33 @@
     </div>
   </header>
   
-
-  <!-- Hero Section -->
+<!-- Hero Section -->
 <section class="hero">
   <video autoplay muted loop class="background-video">
     <source src="../videos/home.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
   <div class="hero-content">
-    <h2>Unravel Gujarat's Ghostly Mysteries</h2><br>
-    <p>Step into the shadows of Gujarat's haunted heritage – from the eerie ruins of Dumas Beach to the mysteries of Bhangarh.</p>
+    <h2>Unravel Ghostly Mysteries</h2><br>
+    <p>Step into the shadows of haunted heritage – from eerie ruins to the mysteries of ancient forts and forgotten castles.</p>
     <div class="city-selector">
-      <label for="city-select">Explore Haunted Locations:</label>
-      <select id="city-select">
+      <label for="city-select">Select a City to Explore Haunted Locations:</label>
+      <select id="city-select" onchange="showLocations()">
         <option value="" disabled selected>Select a destination...</option>
-        <option value="dumas-beach">Dumas Beach</option>
-        <option value="udaipur-palace">Udaipur Palace</option>
-        <option value="bhangarh">Bhangarh (Rajasthan)</option>
-        <option value="jaisalmer-fort">Jaisalmer Fort</option>
+        <option value="vadodara">Vadodara</option>
       </select>
-      <button id="explore-button">Explore Gujarat</button>
-    </div>
-    <div class="hero-links">
-      <a href="#haunted-places" class="cta-link">Top Haunted Places</a>
-      <a href="#mysteries" class="cta-link">Discover Mysteries</a>
+
+      <div id="location-list" style="display:none;">
+        <label for="location-select">Select a Haunted Location:</label>
+        <select id="location-select">
+          <option value="" disabled selected>Select a location...</option>
+        </select>
+        <button id="explore-button" onclick="exploreLocation()">Explore Haunted Location</button>
+      </div>
     </div>
   </div>
 </section>
+
 
   <!-- Footer -->
   <footer class="main-footer">

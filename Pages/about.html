@@ -1,17 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About - Haunted Histories</title>
   <link rel="stylesheet" href="../styles.css">
+
+  <style>
+    /* About Section */
+    .about-section {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background: url('../images/contact-submit.webp') no-repeat center center/cover;
+    }
+
+    .about-section .container {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      text-align: center;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+  
+    }
+
+    .about-section h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .about-section p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .about-section .cta {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #ff6600;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    /* Video Background */
+    .background-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    /* Animation for Heading */
+    .about-section h1 {
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    /* Keyframes for Animation */
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
+
 <body>
-   <!-- Header -->
-   <header class="main-header">
+  <!-- Header -->
+  <header class="main-header">
     <div class="container header-content">
       <h3 class="name">
-        <img src="https://d28lcup14p4e72.cloudfront.net/239025/8059813/Eeriecast%20Logo%20Revamp.png" class="logo">
+        <img src="https://d28lcup14p4e72.cloudfront.net/239025/8059813/Eeriecast%20Logo%20Revamp.png" class="logo" alt="Haunted Histories Logo">
         Haunted Histories
       </h3>
 
@@ -25,22 +99,25 @@
     </div>
   </header>
 
-
   <!-- About Content -->
-  <section class="about-section">
-        <video autoplay muted loop class="background-video">
-          <source src="../videos/home2.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+  <section class="about-section" id="about">
+    <!-- <video autoplay muted loop class="background-video">
+      <source src="../videos/about.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video> -->
     <div class="container">
       <h1>About Haunted Histories</h1>
-      <p>Discover the stories behind the world's most haunted locations. From eerie legends to chilling true tales, Haunted Histories dives deep into the history and mysteries of these ghostly sites.</p>
-      <p>Our mission is to preserve these stories and provide a platform for enthusiasts to explore, share, and learn about the paranormal.</p>
+      <p>Discover the stories behind the world's most haunted locations. From eerie legends to chilling true tales,
+        Haunted Histories dives deep into the history and mysteries of these ghostly sites.</p>
+      <p>Our mission is to preserve these stories and provide a platform for enthusiasts to explore, share, and learn
+        about the paranormal.</p>
+      <p>At Haunted Histories, we believe that the past never truly leaves us. The spirits, stories, and secrets of long-forgotten places continue to echo through the ages, waiting to be uncovered. We bring these tales back to life, allowing everyone to experience the spine-chilling atmosphere of haunted locations from around the world.</p>
+      <p>Whether you are a skeptic or a true believer, our platform offers a unique opportunity to explore some of the most haunted places on Earth. From ancient castles to abandoned asylums, each story is carefully researched and presented to immerse you in its mystery.</p>
     </div>
   </section>
 
- <!-- Footer -->
- <footer class="main-footer">
+  <!-- Footer -->
+  <footer class="main-footer">
     <div class="container">
       <p>© 2024 Haunted Histories. All Rights Reserved.</p>
       <p>Designed with passion and a hint of spookiness.</p>
@@ -48,4 +125,5 @@
   </footer>
 
 </body>
+
 </html>
