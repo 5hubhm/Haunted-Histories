@@ -2,73 +2,144 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Explore haunted histories and ghostly tales across cities worldwide.">
-  <title>Haunted Histories</title>
-  <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore haunted histories and ghostly tales across cities worldwide.">
+    <title>Haunted Histories</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* General styles for the content section */
+        .content {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Background video styling */
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* Fog overlay for added spookiness */
+        .fog {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Styling for the content-a section */
+        .content-a {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .content-a h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .content-a p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Buttons within content-a */
+        .content-a .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .content-a .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: #fff;
+            background: rgba(255, 69, 0, 0.8);
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .content-a .btn:hover {
+            background: rgba(255, 69, 0, 1);
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container header-content">
+            <h3 class="name">
+                <img src="https://d28lcup14p4e72.cloudfront.net/239025/8059813/Eeriecast%20Logo%20Revamp.png"
+                    class="logo">
+                Haunted Histories
+            </h3>
 
-  <!-- Header -->
-  <header class="main-header">
-    <div class="container header-content">
-      <h3 class="name">
-        <img src="https://d28lcup14p4e72.cloudfront.net/239025/8059813/Eeriecast%20Logo%20Revamp.png" class="logo">
-        Haunted Histories
-      </h3>
-
-      <nav class="nav-menu">
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="submit_story.html">Submit Story</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <video autoplay muted loop class="background-video">
-      <source src="./videos/home.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <div class="hero-content">
-      <h2>Unravel Ghostly Mysteries</h2><br>
-      <p>Step into the shadows of haunted heritage – from eerie ruins to the mysteries of ancient forts and forgotten
-        castles.</p>
-      <div class="city-selector">
-        <label for="city-select">Select a City to Explore Haunted Locations:</label>
-        <select id="city-select" onchange="showLocations()">
-          <option value="" disabled selected>Select a destination...</option>
-          <option value="vadodara">Vadodara</option>
-        </select>
-
-        <div id="location-list" style="display:none;">
-          <label for="location-select">Select a Haunted Location:</label>
-          <select id="location-select">
-            <option value="" disabled selected>Select a location...</option>
-          </select>
-          <button id="explore-button" onclick="exploreLocation()">Explore Haunted Location</button>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="signup.html">Signup</a></li>
+                </ul>
+            </nav>
         </div>
-      </div>
-    </div>
-  </section>
+    </header>
+    <section class="content">
+        <video autoplay muted loop class="background-video">
+            <source src="./videos/home.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="fog"></div>
+        <div class="content-a">
+            <h1>Haunted Histories</h1>
+            <p>Discover the eerie tales and ghostly whispers of cities shrouded in mystery.</p>
+            <div class="buttons">
+                <a href="Explore.html" class="btn">Explore Now</a>
+                <a href="submit_story.html" class="btn">Submit Your Story</a>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>© 2024 Haunted Histories. All Rights Reserved.</p>
+            <p>Designed with passion and a hint of spookiness.</p>
+        </div>
+    </footer>
 
-
-  <!-- Footer -->
-  <footer class="main-footer">
-    <div class="container">
-      <p>© 2024 Haunted Histories. All Rights Reserved.</p>
-      <p>Designed with passion and a hint of spookiness.</p>
-    </div>
-  </footer>
-
-  <script src="./scripts.js"></script>
+    <script src="./scripts.js"></script>
 </body>
 
 </html>
