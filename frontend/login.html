@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./styles.css">
 
     <style>
+        /* Your existing styles remain the same */
         form {
             opacity: 0.7;
             background: rgba(97, 95, 95, 0.8);
@@ -100,8 +101,7 @@
     <header class="main-header">
         <div class="container header-content">
             <h3 class="name">
-                <img src="https://d28lcup14p4e72.cloudfront.net/239025/8059813/Eeriecast%20Logo%20Revamp.png"
-                    class="logo">
+                <img src="https://d28lcup14p4e72.cloudfront.net/239025/8059813/Eeriecast%20Logo%20Revamp.png" class="logo">
                 Haunted Histories
             </h3>
 
@@ -121,14 +121,12 @@
         <div class="container">
             <h1>Log In</h1>
             <p>Welcome back! Log in to access your Haunted Histories account.</p>
-            <form action="/login" method="POST">
+            <form id="loginForm">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
-
+                <input type="email" id="email" name="email" required>
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
-
-                <button type="submit">Log In</button>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Login</button>
             </form>
             <div class="no-account">
                 Don’t have an account? <a href="signup.html">Sign Up</a>
@@ -143,6 +141,36 @@
             <p>Designed with passion and a hint of spookiness.</p>
         </div>
     </footer>
+    <script>
+        const form = document.getElementById('loginForm');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = form.email.value;
+            const password = form.password.value;
+
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    alert(data.message);
+                    localStorage.setItem('token', data.token); // Save token
+                    window.location.href = 'explore.html';
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Error: Could not log in.');
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This project explores the eerie and mysterious stories associated with a city and its specific areas or places. The goal is to create an engaging platform where users can discover and learn about the haunted history, ghost tales, and dark legends tied to urban locations.",
   "main": "index.js",
-  "type" : "module",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,10 +11,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "mongoose": "^8.9.5"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
+    "nodemon": "^3.1.9"
   }
 }

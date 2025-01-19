@@ -4,6 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import authRoutes from './routes/auth.js';
+import storiesRoutes from './routes/stories.js'; // Importing storiesRoutes
 
 // ESM-compatible __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -21,16 +23,17 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Database connection error:', err));
 
+
 // API routes
-import storiesRoutes from './routes/stories.js';
-app.use('/api/stories', storiesRoutes);
+app.use('/api/stories', storiesRoutes); // Stories API routes
+app.use('/api/auth', authRoutes);       // Authentication API routes
 
 // Static page routes
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend', 'index.html')); // Homepage
 });

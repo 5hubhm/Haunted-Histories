@@ -78,18 +78,18 @@
             line-height: 1.8;
         }
 
-        .already-account {
+        .have-account {
             text-align: center;
             margin-top: 10px;
             font-size: 14px;
         }
 
-        .already-account a {
+        .have-account a {
             color: #c7df3d;
             text-decoration: none;
         }
 
-        .already-account a:hover {
+        .have-account a:hover {
             text-decoration: underline;
         }
     </style>
@@ -110,7 +110,7 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
-                    <li><a href="login.html">Login</a></li>
+                    <li><a href="login.html">Log In</a></li>
                 </ul>
             </nav>
         </div>
@@ -120,20 +120,16 @@
     <section class="signup-section">
         <div class="container">
             <h1>Sign Up</h1>
-            <p>Create your account to join the Haunted Histories community and share your spooky tales.</p>
-            <form action="/signup" method="POST">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username" required>
-
+            <p>Create an account to explore and share haunted stories on Haunted Histories.</p>
+            <form action="/api/auth/signup" method="POST">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
-
+                <input type="email" id="email" name="email" required>
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="Create a password" required>
-
+                <input type="password" id="password" name="password" required>
                 <button type="submit">Sign Up</button>
             </form>
-            <div class="already-account">
+
+            <div class="have-account">
                 Already have an account? <a href="login.html">Log In</a>
             </div>
         </div>
@@ -146,6 +142,41 @@
             <p>Designed with passion and a hint of spookiness.</p>
         </div>
     </footer>
+    <script>
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = form.email.value;
+            const password = form.password.value;
+
+            if (!email || !password) {
+                alert('Both email and password are required.');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    alert(data.message);
+                    window.location.href = 'login.html';
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                alert('Error: Could not complete signup.');
+            }
+        });
+
+    </script>
 </body>
 
 </html>
