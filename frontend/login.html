@@ -104,15 +104,6 @@
                 <img src="https://d28lcup14p4e72.cloudfront.net/239025/8059813/Eeriecast%20Logo%20Revamp.png" class="logo">
                 Haunted Histories
             </h3>
-
-            <nav class="nav-menu">
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="signup.html">Sign Up</a></li>
-                </ul>
-            </nav>
         </div>
     </header>
 
@@ -121,7 +112,7 @@
         <div class="container">
             <h1>Log In</h1>
             <p>Welcome back! Log in to access your Haunted Histories account.</p>
-            <form id="loginForm">
+            <form action="/api/auth/login" method="POST">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
                 <label for="password">Password:</label>
@@ -142,7 +133,7 @@
         </div>
     </footer>
     <script>
-        const form = document.getElementById('loginForm');
+        const form = document.querySelector('form');
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();

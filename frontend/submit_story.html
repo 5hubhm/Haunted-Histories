@@ -8,21 +8,53 @@
   <link rel="stylesheet" href="./styles.css">
 
   <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #0f0e0e;
+      color: #fff;
+    }
+
+    .submit-story-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 0;
+      height: 100vh;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .submit-container {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      max-width: 600px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .submit-container h1 {
+      font-size: 42px;
+      margin-bottom: 20px;
+      color: #c7df3d;
+    }
+
+    .submit-container p {
+      font-size: 20px;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+
     form {
-      opacity: 0.7;
-      background: rgba(97, 95, 95, 0.8);
-      width: 100%;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
     }
 
     form label {
-      display: block;
+      text-align: left;
       font-weight: bold;
       margin-bottom: 5px;
-      color: #222;
+      color: #c7df3d;
     }
 
     form input,
@@ -30,83 +62,54 @@
     form button {
       width: 100%;
       margin-bottom: 15px;
-      padding: 10px;
-      border: 1px solid #ccc;
+      padding: 15px;
+      border: none;
       border-radius: 5px;
+      font-size: 16px;
     }
 
     form input:focus,
     form textarea:focus {
       outline: none;
-      border-color: #ff5733;
-      box-shadow: 0 0 5px rgba(255, 87, 51, 0.5);
+      border: 2px solid #ff5733;
+      box-shadow: 0 0 10px rgba(255, 87, 51, 0.8);
     }
 
     form button {
       background-color: #c7df3d;
-      color: #fff;
-      border: none;
-      font-size: 16px;
+      color: #000;
+      font-weight: bold;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
 
     form button:hover {
       background-color: #d6f430;
-    }
-
-    .submit-story-section {
-      display: flex;
-      justify-content: center;
-      padding: 50px 0;
-      color: #fff;
-    }
-
-    .submit-story-section .container {
-      background: rgba(0, 0, 0, 0.7);
-      padding: 30px;
-      border-radius: 10px;
-    }
-
-
-    .submit-story-section h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 36px;
-    }
-
-
-    .submit-story-section p {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 18px;
-      line-height: 1.8;
+      transform: scale(1.05);
     }
   </style>
 </head>
 
 <body>
-  <!-- Header -->
   <header class="main-header">
     <div class="container header-content">
       <h3 class="name">
         <img src="https://d28lcup14p4e72.cloudfront.net/239025/8059813/Eeriecast%20Logo%20Revamp.png" class="logo">
         Haunted Histories
       </h3>
-
       <nav class="nav-menu">
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="signup.html">Signup</a></li>
+          <!-- Add Logout Button -->
+          <li><a id="logout-button" onclick="logout()">Logout</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <!-- Submit Story Content -->
   <section class="submit-story-section">
-    <div class="container">
+    <div class="submit-container">
       <h1>Submit Your Story</h1>
       <p>Have a spine-chilling tale to share? Submit your story here and become part of Haunted Histories.</p>
       <form action="" method="POST">
@@ -124,13 +127,37 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="main-footer">
     <div class="container">
       <p>© 2024 Haunted Histories. All Rights Reserved.</p>
       <p>Designed with passion and a hint of spookiness.</p>
     </div>
   </footer>
+
+  <script>
+    async function checkAccess() {
+      const response = await fetch('/api/auth/check-session', { credentials: 'include' });
+      const data = await response.json();
+      if (!data.loggedIn) {
+        alert("You need to log in first!");
+        window.location.href = 'login.html';
+      }
+    }
+
+    async function logout() {
+      const response = await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+      const data = await response.json();
+      if (data.message === 'Logged out successfully') {
+        alert("You have been logged out!");
+        window.location.href = 'index.html'; // Redirect to login page after logging out
+      } else {
+        alert("Logout failed. Please try again.");
+      }
+    }
+
+    checkAccess(); // Ensure access check is performed on page load
+  </script>
+
 </body>
 
 </html>

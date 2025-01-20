@@ -23,9 +23,9 @@
       <nav class="nav-menu">
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="signup.html">Signup</a></li>
+          <!-- Add Logout Button if user is logged in -->
+          <li><a id="logout-button" onclick="logout()">Logout</a></li>
         </ul>
       </nav>
     </div>
@@ -59,7 +59,6 @@
     </div>
   </section>
 
-
   <!-- Footer -->
   <footer class="main-footer">
     <div class="container">
@@ -67,6 +66,30 @@
       <p>Designed with passion and a hint of spookiness.</p>
     </div>
   </footer>
+
+  <script>
+    async function checkAccess() {
+      const response = await fetch('/api/auth/check-session', { credentials: 'include' });
+      const data = await response.json();
+      if (!data.loggedIn) {
+        alert("You need to log in first!");
+        window.location.href = 'login.html';
+      }
+    }
+
+    async function logout() {
+      const response = await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+      const data = await response.json();
+      if (data.message === 'Logged out successfully') {
+        alert("You have been logged out!");
+        window.location.href = 'index.html'; // Redirect to login page after logging out
+      } else {
+        alert("Logout failed. Please try again.");
+      }
+    }
+
+    checkAccess(); // Ensure access check is performed on page load
+  </script>
 
   <script src="./scripts.js"></script>
 </body>
