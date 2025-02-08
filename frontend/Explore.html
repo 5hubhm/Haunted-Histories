@@ -24,36 +24,45 @@
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <!-- Add Logout Button if user is logged in -->
-          <li><a id="logout-button" onclick="logout()">Logout</a></li>
+          <li><a id="login-button" href="login.html">Login</a></li>
+          <li><a id="signup-button" href="signup.html">Signup</a></li>
+          <li><a id="logout-button" onclick="logout()" style="cursor: pointer; display: none;">Logout</a></li>
         </ul>
       </nav>
+
     </div>
   </header>
 
   <!-- Hero Section -->
   <section class="hero">
     <video autoplay muted loop class="background-video">
-      <source src="./videos/explore.mp4" type="video/mp4">
+      <source src="./videos/about.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
     <div class="hero-content">
       <h2>Unravel Ghostly Mysteries</h2><br>
       <p>Step into the shadows of haunted heritage – from eerie ruins to the mysteries of ancient forts and forgotten
         castles.</p>
+
       <div class="city-selector">
         <label for="city-select">Select a City to Explore Haunted Locations:</label>
-        <select id="city-select" onchange="showLocations()">
-          <option value="" disabled selected>Select a destination...</option>
+        <select id="city-select" onchange="showLocations()" style="cursor: pointer;">
+          <option value="" disabled selected>Select a City...</option>
           <option value="vadodara">Vadodara</option>
         </select>
 
         <div id="location-list" style="display:none;">
           <label for="location-select">Select a Haunted Location:</label>
-          <select id="location-select">
+          <select id="location-select" style="cursor: pointer;">
             <option value="" disabled selected>Select a location...</option>
+            <option value="vadodara_metro_hospital">Metro Hospital</option>
+            <option value="sardar_vallabhbhai_patel_museum">Sardar Vallabhbhai Patel Institute</option>
+            <option value="mandvigate">Mandvi Gate</option>
+            <option value="ajwa_waterpark">Ajwa Waterpark</option>
+            <option value="kirti_mandir">Kirti Mandir</option>
           </select>
-          <button id="explore-button" onclick="exploreLocation()">Explore Haunted Location</button>
+          <button id="explore-button" onclick="exploreLocation()" style="cursor: pointer;">Explore Haunted
+            Location</button>
         </div>
       </div>
     </div>
@@ -69,29 +78,74 @@
 
   <script>
     async function checkAccess() {
-      const response = await fetch('/api/auth/check-session', { credentials: 'include' });
-      const data = await response.json();
-      if (!data.loggedIn) {
-        alert("You need to log in first!");
-        window.location.href = 'login.html';
+      try {
+        const response = await fetch('/api/auth/check-session', { credentials: 'include' });
+        const data = await response.json();
+        if (!data.loggedIn) {
+          alert("You need to log in first!");
+          window.location.href = 'login.html';
+        } else {
+          document.body.style.display = "block"; // Show content after authentication
+        }
+      } catch (error) {
+        console.error("Error checking session:", error);
+        alert("An error occurred. Please try again later.");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", async function () {
+      document.body.style.display = "none"; // Hide page initially
+      await checkAccess(); // Check access before showing content
+    });
+
+    function showLocations() {
+      const citySelect = document.getElementById("city-select");
+      const locationList = document.getElementById("location-list");
+
+      locationList.style.display = "none";
+
+      const selectedCity = citySelect.value;
+
+      if (selectedCity) {
+        locationList.style.display = "block";
+      } else {
+        locationList.style.display = "none";
+      }
+    }
+
+    function exploreLocation() {
+      const locationSelect = document.getElementById("location-select");
+      const selectedLocation = locationSelect.value;
+
+      if (selectedLocation) {
+        const citySelect = document.getElementById("city-select");
+        const selectedCity = citySelect.value;
+
+        window.location.href = `./stories/${selectedCity}/${selectedLocation}.html`;
+      } else {
+        alert("Please select a haunted location to explore.");
       }
     }
 
     async function logout() {
-      const response = await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
-      const data = await response.json();
-      if (data.message === 'Logged out successfully') {
-        alert("You have been logged out!");
-        window.location.href = 'index.html'; // Redirect to login page after logging out
-      } else {
-        alert("Logout failed. Please try again.");
+      try {
+        const response = await fetch(`/api/auth/logout`, { method: 'POST', credentials: 'include' });
+        const data = await response.json();
+        if (data.message === 'Logged out successfully') {
+          alert("You have been logged out!");
+          window.location.href = 'index.html';
+        } else {
+          alert("Logout failed. Please try again.");
+        }
+      } catch (error) {
+        console.error("Logout error:", error);
+        alert("An error occurred while logging out.");
       }
     }
-
-    checkAccess(); // Ensure access check is performed on page load
   </script>
+<script src="auth.js"></script>
 
-  <script src="./scripts.js"></script>
+
 </body>
 
 </html>

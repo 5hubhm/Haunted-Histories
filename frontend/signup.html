@@ -104,6 +104,15 @@
                     class="logo">
                 Haunted Histories
             </h3>
+            <nav class="nav-menu">
+                <ul>
+                  <li><a href="/">Home</a></li>
+                  <li><a href="contact.html">Contact</a></li>
+                  <li><a id="login-button" href="login.html">Login</a></li>
+                  <li><a id="signup-button" href="signup.html">Signup</a></li>
+                  <li><a id="logout-button" onclick="logout()" style="cursor: pointer; display: none;">Logout</a></li>
+                </ul>
+              </nav>              
         </div>
     </header>
 
@@ -113,10 +122,15 @@
             <h1>Sign Up</h1>
             <p>Create an account to explore and share haunted stories on Haunted Histories.</p>
             <form action="/api/auth/signup" method="POST">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
+
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
+
                 <button type="submit">Sign Up</button>
             </form>
 
@@ -134,30 +148,34 @@
         </div>
     </footer>
     <script>
+
+    
         const form = document.querySelector('form');
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
 
+            const username = form.username.value;
             const email = form.email.value;
             const password = form.password.value;
 
-            if (!email || !password) {
-                alert('Both email and password are required.');
+            if (!username || !email || !password) {
+                alert('All fields are required.');
                 return;
             }
 
+
             try {
-                const response = await fetch('http://localhost:5000/api/auth/signup', {
+                const response = await fetch(`/api/auth/signup`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password }),
+                    body: JSON.stringify({ username, email, password }),
                 });
 
                 const data = await response.json();
                 if (response.ok) {
                     alert(data.message);
-                    window.location.href = 'login.html';
+                    window.location.href = 'login.html'; // Redirect to login
                 } else {
                     alert(data.message);
                 }
@@ -166,8 +184,9 @@
                 alert('Error: Could not complete signup.');
             }
         });
-
     </script>
+    <script src="auth.js"></script>
+
 </body>
 
 </html>

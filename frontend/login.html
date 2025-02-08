@@ -104,6 +104,15 @@
                 <img src="https://d28lcup14p4e72.cloudfront.net/239025/8059813/Eeriecast%20Logo%20Revamp.png" class="logo">
                 Haunted Histories
             </h3>
+            <nav class="nav-menu">
+                <ul>
+                  <li><a href="/">Home</a></li>
+                  <li><a href="contact.html">Contact</a></li>
+                  <li><a id="login-button" href="login.html">Login</a></li>
+                  <li><a id="signup-button" href="signup.html">Signup</a></li>
+                  <li><a id="logout-button" onclick="logout()" style="cursor: pointer; display: none;">Logout</a></li>
+                </ul>
+              </nav>              
         </div>
     </header>
 
@@ -113,10 +122,12 @@
             <h1>Log In</h1>
             <p>Welcome back! Log in to access your Haunted Histories account.</p>
             <form action="/api/auth/login" method="POST">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <label for="identifier">Email or Username:</label>
+                <input type="text" id="identifier" name="identifier" required>
+            
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
+            
                 <button type="submit">Login</button>
             </form>
             <div class="no-account">
@@ -133,26 +144,27 @@
         </div>
     </footer>
     <script>
-        const form = document.querySelector('form');
 
+        const form = document.querySelector('form');
+    
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
-
-            const email = form.email.value;
+    
+            const identifier = form.identifier.value; // Can be email or username
             const password = form.password.value;
-
+            
             try {
-                const response = await fetch('http://localhost:5000/api/auth/login', {
+                const response = await fetch(`/api/auth/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password }),
+                    body: JSON.stringify({ identifier, password }),
                 });
-
+    
                 const data = await response.json();
                 if (response.ok) {
                     alert(data.message);
-                    localStorage.setItem('token', data.token); // Save token
-                    window.location.href = 'index.html';
+                    localStorage.setItem('token', data.token);
+                    window.location.href = 'index.html'; // Redirect to homepage
                 } else {
                     alert(data.message);
                 }
@@ -162,6 +174,8 @@
             }
         });
     </script>
+    <script src="auth.js"></script>
+
 </body>
 
 </html>

@@ -90,6 +90,7 @@
 </head>
 
 <body>
+
   <header class="main-header">
     <div class="container header-content">
       <h3 class="name">
@@ -100,9 +101,12 @@
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a id="logout-button" onclick="logout()">Logout</a></li>
+          <li><a id="login-button" href="login.html">Login</a></li>
+          <li><a id="signup-button" href="signup.html">Signup</a></li>
+          <li><a id="logout-button" onclick="logout()" style="cursor: pointer; display: none;">Logout</a></li>
         </ul>
       </nav>
+      
     </div>
   </header>
 
@@ -110,6 +114,7 @@
     <div class="submit-container">
       <h1>Submit Your Story</h1>
       <p>Have a spine-chilling tale to share? Submit your story here and become part of Haunted Histories.</p>
+
       <form action="/api/stories/submit-story" method="POST" id="storyForm">
         <label for="title">Story Title:</label>
         <input type="text" id="title" name="title" required>
@@ -137,17 +142,25 @@
 
   <script>
     async function checkAccess() {
-      const response = await fetch('/api/auth/check-session', { credentials: 'include' });
-      const data = await response.json();
-      if (!data.loggedIn) {
-        alert("You need to log in first!");
-        window.location.href = 'login.html';
+      try {
+        const response = await fetch('/api/auth/check-session', { credentials: 'include' });
+        const data = await response.json();
+        if (!data.loggedIn) {
+          alert("You need to log in first!");
+          window.location.href = 'login.html';
+        } else {
+          document.querySelector(".submit-story-section").style.display = "flex"; // Show form after check
+        }
+      } catch (error) {
+        console.error("Error checking session:", error);
+        alert("An error occurred. Please try again later.");
       }
     }
 
-
-    // Call checkAccess before displaying the form
-    checkAccess();
+    document.addEventListener("DOMContentLoaded", async function () {
+      document.querySelector(".submit-story-section").style.display = "none"; // Hide form initially
+      await checkAccess(); // Check before displaying form
+    });
 
     document.getElementById('storyForm').addEventListener('submit', async function (event) {
       event.preventDefault();
@@ -163,11 +176,11 @@
       }
 
       try {
-        const response = await fetch('/api/stories/submit-story', {
+        const response = await fetch(`/api/stories/submit-story`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
-          body: JSON.stringify({ title, city, location, description})
+          body: JSON.stringify({ title, city, location, description })
         });
 
         const data = await response.json();
@@ -182,7 +195,26 @@
         alert("Something went wrong. Please try again later.");
       }
     });
+
+    async function logout() {
+      try {
+        const response = await fetch(`/api/auth/logout`, { method: 'POST', credentials: 'include' });
+        const data = await response.json();
+        if (data.message === 'Logged out successfully') {
+          alert("You have been logged out!");
+          window.location.href = 'index.html'; // Redirect to homepage after logging out
+        } else {
+          alert("Logout failed. Please try again.");
+        }
+      } catch (error) {
+        console.error("Logout error:", error);
+        alert("An error occurred while logging out.");
+      }
+    }
   </script>
+
+<script src="auth.js"></script>
+
 </body>
 
 </html>
