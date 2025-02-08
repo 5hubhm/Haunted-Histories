@@ -73,10 +73,12 @@ router.post('/logout', (req, res) => {
 
 // Check if user is logged in
 router.get('/check-session', (req, res) => {
+    console.log("Session Data:", req.session); // Debugging
+
     if (req.session.user) {
         res.json({ loggedIn: true, user: req.session.user });
     } else {
-        res.json({ loggedIn: false });
+        res.status(401).json({ loggedIn: false, message: 'Session expired' });
     }
 });
 

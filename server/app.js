@@ -11,6 +11,7 @@ import storiesRoutes from './routes/stories.js'; // Importing storiesRoutes
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 
+
 // ESM-compatible __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,17 +21,27 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  credentials: true  // Allows cookies to be sent
+}));
+
+
 app.use(express.json());
 app.use(cookieParser());
 
 // Session middleware should be used before API routes
 app.use(session({
-  secret: 'your-secret-key',  // Change this to a more secure key
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }  // Set to true if using HTTPS in production
+  secret: process.env.SESSION_SECRET || 'your-secret-key',
+  resave: false,  // Prevents unnecessary session updates
+  saveUninitialized: true,  // Only saves sessions when user logs in
+  cookie: {
+    httpOnly: true,
+    secure: false,  // Set to true if using HTTPS
+    maxAge: 24 * 60 * 60 * 1000 // 24-hour session duration
+  }
 }));
+
+
 
 // Authentication check middleware
 const isAuthenticated = (req, res, next) => {
@@ -50,6 +61,7 @@ mongoose
   .catch(err => console.error('Database connection error:', err));
 
 // API routes
+
 app.use('/api/stories', isAuthenticated, storiesRoutes);  // Protecting stories routes with session middleware
 app.use('/api/auth', authRoutes);                         // Authentication API routes
 
@@ -58,10 +70,12 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend', 'index.html')); // Homepage
 });
 
+
 // 404 Route for undefined paths
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, '../frontend', '404.html')); // Custom 404 page
+  res.status(404).json({ error: "Route not found" });
 });
+
 
 // Start server
 const PORT = process.env.PORT || 5000;

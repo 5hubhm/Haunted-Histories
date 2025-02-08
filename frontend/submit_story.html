@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Submit Story - Haunted Histories</title>
   <link rel="stylesheet" href="./styles.css">
-
   <style>
     body {
       margin: 0;
@@ -101,7 +100,6 @@
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <!-- Add Logout Button -->
           <li><a id="logout-button" onclick="logout()">Logout</a></li>
         </ul>
       </nav>
@@ -112,17 +110,20 @@
     <div class="submit-container">
       <h1>Submit Your Story</h1>
       <p>Have a spine-chilling tale to share? Submit your story here and become part of Haunted Histories.</p>
-      <form action="" method="POST">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+      <form action="/api/stories/submit-story" method="POST" id="storyForm">
+        <label for="title">Story Title:</label>
+        <input type="text" id="title" name="title" required>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
 
-        <label for="story">Your Story:</label>
-        <textarea id="story" name="story" rows="5" required></textarea>
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required>
 
-        <button type="submit">Submit</button>
+        <label for="description">Story Description:</label>
+        <textarea id="description" name="description" rows="6" required></textarea>
+
+        <button type="submit">Submit Story</button>
       </form>
     </div>
   </section>
@@ -144,20 +145,44 @@
       }
     }
 
-    async function logout() {
-      const response = await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
-      const data = await response.json();
-      if (data.message === 'Logged out successfully') {
-        alert("You have been logged out!");
-        window.location.href = 'index.html'; // Redirect to login page after logging out
-      } else {
-        alert("Logout failed. Please try again.");
+
+    // Call checkAccess before displaying the form
+    checkAccess();
+
+    document.getElementById('storyForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const title = document.getElementById('title').value.trim();
+      const city = document.getElementById('city').value.trim();
+      const location = document.getElementById('location').value.trim();
+      const description = document.getElementById('description').value.trim();
+
+      if (!title || !city || !location || !description) {
+        alert("Please fill in all required fields.");
+        return;
       }
-    }
 
-    checkAccess(); // Ensure access check is performed on page load
+      try {
+        const response = await fetch('/api/stories/submit-story', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ title, city, location, description})
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          alert("Story submitted successfully!");
+          window.location.href = '/';
+        } else {
+          alert("Error: " + (data.message || "Something went wrong."));
+        }
+      } catch (error) {
+        console.error("Error submitting the story:", error);
+        alert("Something went wrong. Please try again later.");
+      }
+    });
   </script>
-
 </body>
 
 </html>
