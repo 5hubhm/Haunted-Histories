@@ -15,16 +15,21 @@ const SECRET_KEY = process.env.JWT_SECRET;
 
 // Signup Route
 router.post('/signup', async (req, res) => {
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
 
     try {
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ 
+            $or: [{ email }, { username }] // Check if email or username exists
+        });
+
         if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
+            return res.status(400).json({ message: 'Username or Email already exists' });
         }
 
-        // Hash password before saving
-        const newUser = new User({ email, password });
+        // Hash the password before saving
+        const hashedPassword = await bcrypt.hash(password, 10); // Salt rounds set to 10
+
+        const newUser = new User({ username, email, password: hashedPassword });
         await newUser.save();
 
         res.status(201).json({ message: 'User registered successfully' });
@@ -34,25 +39,28 @@ router.post('/signup', async (req, res) => {
     }
 });
 
+
 // Login Route (using sessions)
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { identifier, password } = req.body;
 
     try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ 
+            $or: [{ email: identifier }, { username: identifier }] // Match email or username
+        });
 
         if (!user) {
-            return res.status(400).json({ message: 'Invalid email or password' });
+            return res.status(400).json({ message: 'Invalid email/username or password' });
         }
 
         // Compare passwords
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid email or password' });
+            return res.status(400).json({ message: 'Invalid email/username or password' });
         }
 
         // Create a session
-        req.session.user = { id: user._id, email: user.email };
+        req.session.user = { id: user._id, username: user.username, email: user.email };
 
         res.status(200).json({ message: 'Login successful' });
     } catch (error) {
@@ -60,6 +68,7 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ message: 'An error occurred during login', error });
     }
 });
+
 
 // Logout Route
 router.post('/logout', (req, res) => {
