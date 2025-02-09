@@ -75,11 +75,9 @@
   </footer>
 
   <script>
-    const API_URL = "https://haunted-histories.vercel.app"; // Set the backend URL once
-
     async function checkAccess() {
       try {
-        const response = await fetch(`${API_URL}/api/auth/check-session`, { credentials: 'include' });
+        const response = await fetch(`/api/auth/check-session`, { credentials: 'include' });
         const data = await response.json();
         if (!data.loggedIn) {
           alert("You need to log in first!");
@@ -129,7 +127,7 @@
 
     async function logout() {
       try {
-        const response = await fetch(`${API_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' });
+        const response = await fetch(`/api/auth/logout`, { method: 'POST', credentials: 'include' });
         const data = await response.json();
         if (data.message === 'Logged out successfully') {
           alert("You have been logged out!");

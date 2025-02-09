@@ -1,9 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  const API_URL = "https://haunted-histories.vercel.app"; // Update this with your backend URL
-
   async function checkAccess() {
       try {
-          const response = await fetch(`${API_URL}/api/auth/check-session`, { credentials: 'include' });
+          const response = await fetch(`/api/auth/check-session`, { credentials: 'include' });
           const data = await response.json();
 
           // Get the navigation buttons
@@ -33,8 +31,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 // Logout function
 async function logout() {
   try {
-      const API_URL = "https://haunted-histories.vercel.app"; // Ensure this is set
-      const response = await fetch(`${API_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' });
+      const response = await fetch(`/api/auth/logout`, { method: 'POST', credentials: 'include' });
       const data = await response.json();
 
       if (data.message === 'Logged out successfully') {

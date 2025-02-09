@@ -28,7 +28,7 @@
           <li><a id="logout-button" onclick="logout()" style="cursor: pointer; display: none;">Logout</a></li>
         </ul>
       </nav>
-      
+
     </div>
   </header>
 
@@ -37,7 +37,7 @@
       <h1>Submit Your Story</h1>
       <p>Have a spine-chilling tale to share? Submit your story here and become part of Haunted Histories.</p>
 
-      <form action="/api/stories/submit-story" method="POST" id="storyForm">
+      <form action="submit-story" method="POST" id="storyForm">
         <label for="title">Story Title:</label>
         <input type="text" id="title" name="title" required>
 
@@ -63,12 +63,9 @@
   </footer>
 
   <script>
-    // Define the API URL
-    const API_URL = 'https://haunted-histories.vercel.app';  // Replace with the actual base URL if needed
-
     async function checkAccess() {
       try {
-        const response = await fetch(`${API_URL}/auth/check-session`, { credentials: 'include' });
+        const response = await fetch(`/api/auth/check-session`, { credentials: 'include' });
         const data = await response.json();
         if (!data.loggedIn) {
           alert("You need to log in first!");
@@ -101,7 +98,7 @@
       }
 
       try {
-        const response = await fetch(`${API_URL}/stories/submit-story`, {
+        const response = await fetch(`/api/stories/submit`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -120,25 +117,9 @@
         alert("Something went wrong. Please try again later.");
       }
     });
-
-    async function logout() {
-      try {
-        const response = await fetch(`${API_URL}/auth/logout`, { method: 'POST', credentials: 'include' });
-        const data = await response.json();
-        if (data.message === 'Logged out successfully') {
-          alert("You have been logged out!");
-          window.location.href = 'index.html'; // Redirect to homepage after logging out
-        } else {
-          alert("Logout failed. Please try again.");
-        }
-      } catch (error) {
-        console.error("Logout error:", error);
-        alert("An error occurred while logging out.");
-      }
-    }
   </script>
 
-<script src="auth.js"></script>
+  <script src="auth.js"></script>
 
 </body>
 

@@ -14,7 +14,7 @@ const app = express();
 // CORS Configuration
 app.use(cors({
   credentials: true,
-  origin: process.env.FRONTEND_URL
+  origin: true
 }));
 
 app.use(express.json());

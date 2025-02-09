@@ -145,9 +145,6 @@
     </footer>
 
     <script>
-        // Define the API_URL variable
-        const API_URL = 'https://haunted-histories.vercel.app'; // Replace with the actual API URL
-
         const form = document.getElementById('login-form');
     
         form.addEventListener('submit', async (event) => {
@@ -157,7 +154,7 @@
             const password = form.password.value;
             
             try {
-                const response = await fetch(`${API_URL}/api/auth/login`, {
+                const response = await fetch(`/api/auth/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ identifier, password }),
