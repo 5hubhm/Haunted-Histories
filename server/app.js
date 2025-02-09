@@ -22,10 +22,11 @@ const app = express();
 
 // 🔹 CORS Middleware (Allows Frontend Access)
 app.use(cors({
-  credentials: true,
-  origin: process.env.FRONTEND_URL,  // ✅ Uses .env FRONTEND_URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization']
+  credentials: true,  // Allow cookies & sessions
+  origin: process.env.FRONTEND_URL || 'https://haunted-histories-frontend.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['set-cookie']  // Allow frontend to receive cookies
 }));
 
 // Middleware
