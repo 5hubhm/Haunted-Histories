@@ -23,7 +23,7 @@ const app = express();
 // 🔹 CORS Middleware (Allows Frontend Access)
 app.use(cors({
   credentials: true,  // Allow cookies & sessions
-  origin: process.env.FRONTEND_URL || 'https://haunted-historiess-frontend.vercel.app',
+  origin: process.env.FRONTEND_URL,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['set-cookie']  // Allow frontend to receive cookies
@@ -64,13 +64,6 @@ mongoose
     process.exit(1);
   });
 
-  app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL || 'https://haunted-historiess-frontend.vercel.app');
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    next();
-  });
   
 // 🔹 API Routes
 app.use('/api/auth', authRoutes); // Authentication routes remain open
