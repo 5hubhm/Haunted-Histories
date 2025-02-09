@@ -121,7 +121,7 @@
         <div class="container">
             <h1>Sign Up</h1>
             <p>Create an account to explore and share haunted stories on Haunted Histories.</p>
-            <form action="/api/auth/signup" method="POST">
+            <form id="signup-form">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
 
@@ -147,10 +147,12 @@
             <p>Designed with passion and a hint of spookiness.</p>
         </div>
     </footer>
-    <script>
 
-    
-        const form = document.querySelector('form');
+    <script>
+        // Define the API_URL variable
+        const API_URL = 'https://haunted-histories.vercel.app/'; // Replace with the actual API URL
+
+        const form = document.getElementById('signup-form');
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -164,9 +166,8 @@
                 return;
             }
 
-
             try {
-                const response = await fetch(`/api/auth/signup`, {
+                const response = await fetch(`${API_URL}/api/auth/signup`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, email, password }),

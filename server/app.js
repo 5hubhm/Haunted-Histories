@@ -6,77 +6,101 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import authRoutes from './routes/auth.js';
-import storiesRoutes from './routes/stories.js'; // Importing storiesRoutes
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
-
+import authRoutes from './routes/auth.js';
+import storiesRoutes from './routes/stories.js';
 
 // ESM-compatible __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Load environment variables
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
 
-// Middleware
+// 🔹 CORS Middleware (Allows Frontend Access)
 app.use(cors({
-  credentials: true  // Allows cookies to be sent
+  credentials: true,
+  origin: process.env.FRONTEND_URL,  // ✅ Uses .env FRONTEND_URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
 
-// Session middleware should be used before API routes
+// 🔹 Session Middleware (Secure & Optimized)
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your-secret-key',
-  resave: false,  // Prevents unnecessary session updates
-  saveUninitialized: true,  // Only saves sessions when user logs in
+  resave: false,
+  saveUninitialized: false,  // Don't save empty sessions
   cookie: {
-    httpOnly: true,
-    secure: false,  // Set to true if using HTTPS
-    maxAge: 24 * 60 * 60 * 1000 // 24-hour session duration
+    httpOnly: true,  // Prevents XSS attacks
+    secure: process.env.NODE_ENV === 'production',  // Enforce HTTPS in production
+    sameSite: 'lax',  // Helps prevent CSRF attacks
+    maxAge: 24 * 60 * 60 * 1000  // 24-hour session duration
   }
 }));
 
-
-
-// Authentication check middleware
+// 🔹 Authentication Middleware
 const isAuthenticated = (req, res, next) => {
   if (!req.session.user) {
-    return res.status(401).json({ message: 'Please log in to access this resource' });
+    return res.status(401).json({ message: 'Unauthorized. Please log in.' });
   }
-  next(); // Proceed to the next middleware or route handler if the user is authenticated
+  next();
 };
 
-// Serve static files from the 'frontend' folder
+// 🔹 MongoDB Connection (Handles Errors Properly)
+mongoose
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('✅ Connected to MongoDB'))
+  .catch(err => {
+    console.error('❌ Database connection error:', err);
+    process.exit(1);
+  });
+
+// 🔹 API Routes
+app.use('/api/auth', authRoutes); // Authentication routes remain open
+app.use('/api/stories', isAuthenticated, storiesRoutes); // Protected Stories Routes
+
+// 🔹 Example of an Additional Protected Route
+app.use('/api/protected', isAuthenticated, (req, res) => {
+  res.json({ message: '✅ You have access to this protected route!' });
+});
+
+// 🔹 Serve Static Frontend Files (If Hosting Frontend Here)
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// MongoDB Connection
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('Database connection error:', err));
-
-// API routes
-
-app.use('/api/stories', isAuthenticated, storiesRoutes);  // Protecting stories routes with session middleware
-app.use('/api/auth', authRoutes);                         // Authentication API routes
-
-// Static page routes
+// 🔹 Serve Homepage
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend', 'index.html')); // Homepage
+  res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
 });
 
-
-// 404 Route for undefined paths
+// 🔹 404 Route Handler
 app.use((req, res) => {
-  res.status(404).json({ error: "Route not found" });
+  res.status(404).json({ error: "❌ Route not found" });
 });
 
+// 🔹 Global Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error('❌ Server Error:', err);
+  res.status(500).json({ error: '❌ Internal Server Error' });
+});
 
-// Start server
+// 🔹 Handle Unexpected Errors
+process.on('uncaughtException', err => {
+  console.error('❌ Uncaught Exception:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', err => {
+  console.error('❌ Unhandled Rejection:', err);
+  process.exit(1);
+});
+
+// 🔹 Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

@@ -41,8 +41,7 @@
     </video>
     <div class="hero-content">
       <h2>Unravel Ghostly Mysteries</h2><br>
-      <p>Step into the shadows of haunted heritage – from eerie ruins to the mysteries of ancient forts and forgotten
-        castles.</p>
+      <p>Step into the shadows of haunted heritage – from eerie ruins to the mysteries of ancient forts and forgotten castles.</p>
 
       <div class="city-selector">
         <label for="city-select">Select a City to Explore Haunted Locations:</label>
@@ -61,8 +60,7 @@
             <option value="ajwa_waterpark">Ajwa Waterpark</option>
             <option value="kirti_mandir">Kirti Mandir</option>
           </select>
-          <button id="explore-button" onclick="exploreLocation()" style="cursor: pointer;">Explore Haunted
-            Location</button>
+          <button id="explore-button" onclick="exploreLocation()" style="cursor: pointer;">Explore Haunted Location</button>
         </div>
       </div>
     </div>
@@ -77,9 +75,11 @@
   </footer>
 
   <script>
+    const API_URL = "https://haunted-histories.vercel.app"; // Set the backend URL once
+
     async function checkAccess() {
       try {
-        const response = await fetch('/api/auth/check-session', { credentials: 'include' });
+        const response = await fetch(`${API_URL}/api/auth/check-session`, { credentials: 'include' });
         const data = await response.json();
         if (!data.loggedIn) {
           alert("You need to log in first!");
@@ -129,7 +129,7 @@
 
     async function logout() {
       try {
-        const response = await fetch(`/api/auth/logout`, { method: 'POST', credentials: 'include' });
+        const response = await fetch(`${API_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' });
         const data = await response.json();
         if (data.message === 'Logged out successfully') {
           alert("You have been logged out!");
@@ -144,7 +144,6 @@
     }
   </script>
 <script src="auth.js"></script>
-
 
 </body>
 
