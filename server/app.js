@@ -2,7 +2,6 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.js';
 import storiesRoutes from './routes/stories.js';
@@ -21,18 +20,6 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-// Session Configuration
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-secret-key',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: 24 * 60 * 60 * 1000
-  }
-}));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
