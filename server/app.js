@@ -15,7 +15,7 @@ const app = express();
 // CORS Configuration
 app.use(cors({
   credentials: true,
-  origin: ['https://haunted-histories-frontend.vercel.app', 'http://localhost:5000']
+  origin: process.env.FRONTEND_URL
 }));
 
 app.use(express.json());
