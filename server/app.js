@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import session from 'express-session';
 import authRoutes from './routes/auth.js';
 import storiesRoutes from './routes/stories.js';
 
@@ -20,6 +21,17 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your-secret-key', // Change this in production
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+      secure: true,  // Set to `true` in production with HTTPS
+      httpOnly: true, // Prevents XSS attacks
+      maxAge: 1000 * 60 * 60 * 24 // 1-day session duration
+  }
+}));
 
 
 // MongoDB Connection
