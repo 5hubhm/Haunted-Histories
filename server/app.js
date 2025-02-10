@@ -23,14 +23,14 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-secret-key', // Change this in production
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-      secure: true,  // Set to `true` in production with HTTPS
-      httpOnly: false, // Prevents XSS attacks
-      maxAge: 1000 * 60 * 60 * 24 // 1-day session duration
-  }
+      secure: process.env.NODE_ENV === 'production', // Secure only in production
+      httpOnly: true, // Prevents client-side access
+      maxAge: 1000 * 60 * 60 * 24 // 1 day session duration
+  },
 }));
 
 
