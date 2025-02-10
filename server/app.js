@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import authRoutes from './routes/auth.js';
 import storiesRoutes from './routes/stories.js';
+import MongoStore from 'connect-mongo';
 
 // Load environment variables
 dotenv.config();
@@ -26,11 +27,15 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,  // Your MongoDB connection
+    collectionName: 'sessions'
+  }),
   cookie: {
-      secure: process.env.NODE_ENV === 'production', // Secure only in production
-      httpOnly: true, // Prevents client-side access
-      maxAge: 1000 * 60 * 60 * 24 // 1 day session duration
-  },
+    secure: process.env.NODE_ENV === 'production',  // Use secure cookies in production
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24  // 1-day session duration
+  }
 }));
 
 
