@@ -25,10 +25,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your-secret-key', // Change this in production
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
       secure: true,  // Set to `true` in production with HTTPS
-      httpOnly: true, // Prevents XSS attacks
+      httpOnly: false, // Prevents XSS attacks
       maxAge: 1000 * 60 * 60 * 24 // 1-day session duration
   }
 }));
