@@ -59,13 +59,8 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid email/username or password' });
         }
 
-        // Set session data
-        req.session.user = { id: user._id, username: user.username };
-
-        console.log("Session after login:", req.session); // Debugging log
-
-        res.json({ message: "Logged in successfully", user: req.session.user });
-
+        // Create a session
+        req.session.user = { id: user._id, username: user.username, email: user.email };
 
         res.status(200).json({ message: 'Login successful' });
     } catch (error) {
