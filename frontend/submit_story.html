@@ -7,7 +7,85 @@
   <title>Submit Story - Haunted Histories</title>
   <link rel="stylesheet" href="./styles.css">
   <style>
-    /* Your existing styles here */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #0f0e0e;
+      color: #fff;
+    }
+
+    .submit-story-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 0;
+      height: 100vh;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .submit-container {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      max-width: 600px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .submit-container h1 {
+      font-size: 42px;
+      margin-bottom: 20px;
+      color: #c7df3d;
+    }
+
+    .submit-container p {
+      font-size: 20px;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form label {
+      text-align: left;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #c7df3d;
+    }
+
+    form input,
+    form textarea,
+    form button {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    form input:focus,
+    form textarea:focus {
+      outline: none;
+      border: 2px solid #ff5733;
+      box-shadow: 0 0 10px rgba(255, 87, 51, 0.8);
+    }
+
+    form button {
+      background-color: #c7df3d;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #d6f430;
+      transform: scale(1.05);
+    }
   </style>
 </head>
 
