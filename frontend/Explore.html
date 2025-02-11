@@ -75,26 +75,26 @@
   </footer>
 
   <script>
-    async function checkAccess() {
-      try {
-        const response = await fetch(`/api/auth/check-session`, { credentials: 'include' });
-        const data = await response.json();
-        if (!data.loggedIn) {
-          alert("You need to log in first!");
-          window.location.href = 'login.html';
-        } else {
-          document.body.style.display = "block"; // Show content after authentication
-        }
-      } catch (error) {
-        console.error("Error checking session:", error);
-        alert("An error occurred. Please try again later.");
-      }
-    }
+    // async function checkAccess() {
+    //   try {
+    //     const response = await fetch(`/api/auth/check-session`, { credentials: 'include' });
+    //     const data = await response.json();
+    //     if (!data.loggedIn) {
+    //       alert("You need to log in first!");
+    //       window.location.href = 'login.html';
+    //     } else {
+    //       document.body.style.display = "block"; // Show content after authentication
+    //     }
+    //   } catch (error) {
+    //     console.error("Error checking session:", error);
+    //     alert("An error occurred. Please try again later.");
+    //   }
+    // }
 
-    document.addEventListener("DOMContentLoaded", async function () {
-      document.body.style.display = "none"; // Hide page initially
-      await checkAccess(); // Check access before showing content
-    });
+    // document.addEventListener("DOMContentLoaded", async function () {
+    //   document.body.style.display = "none"; // Hide page initially
+    //   await checkAccess(); // Check access before showing content
+    // });
 
     function showLocations() {
       const citySelect = document.getElementById("city-select");

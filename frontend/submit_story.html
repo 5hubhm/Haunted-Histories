@@ -63,26 +63,26 @@
   </footer>
 
   <script>
-    async function checkAccess() {
-      try {
-        const response = await fetch(`/api/auth/check-session`, { credentials: 'include' });
-        const data = await response.json();
-        if (!data.loggedIn) {
-          alert("You need to log in first!");
-          window.location.href = 'login.html';
-        } else {
-          document.querySelector(".submit-story-section").style.display = "flex"; // Show form after check
-        }
-      } catch (error) {
-        console.error("Error checking session:", error);
-        alert("An error occurred. Please try again later.");
-      }
-    }
+    // async function checkAccess() {
+    //   try {
+    //     const response = await fetch(`/api/auth/check-session`, { credentials: 'include' });
+    //     const data = await response.json();
+    //     if (!data.loggedIn) {
+    //       alert("You need to log in first!");
+    //       window.location.href = 'login.html';
+    //     } else {
+    //       document.querySelector(".submit-story-section").style.display = "flex"; // Show form after check
+    //     }
+    //   } catch (error) {
+    //     console.error("Error checking session:", error);
+    //     alert("An error occurred. Please try again later.");
+    //   }
+    // }
 
-    document.addEventListener("DOMContentLoaded", async function () {
-      document.querySelector(".submit-story-section").style.display = "none"; // Hide form initially
-      await checkAccess(); // Check before displaying form
-    });
+    // document.addEventListener("DOMContentLoaded", async function () {
+    //   document.querySelector(".submit-story-section").style.display = "none"; // Hide form initially
+    //   await checkAccess(); // Check before displaying form
+    // });
 
     document.getElementById('storyForm').addEventListener('submit', async function (event) {
       event.preventDefault();
